@@ -1,12 +1,12 @@
 {
   "server": {
-    "host": "your-bedrock-server.aternos.me",
-    "port": 19132
+    "host": "Enjoy-p0bN.aternos.me",
+    "port": 55264
   },
   "bot": {
     "username": "alwaysonline",
-    "reconnectDelay": 30000,
-    "maxReconnectAttempts": 100
+    "reconnectDelay": 5000,
+    "maxReconnectAttempts": 10000000000000000000000000000000000000
   },
   "logging": {
     "level": "info",
