@@ -14,15 +14,14 @@ class BedrockBot {
   }
 
   connect() {
-    logger.info('Attempting to connect to Bedrock server...');
+    logger.info('Attempting to connect to Bedrock server (offline mode)...');
 
     try {
       this.client = createClient({
         host: this.serverConfig.host,
         port: this.serverConfig.port,
         username: this.serverConfig.username,
-        auth: 'microsoft',
-        refreshToken: process.env.BEDROCK_REFRESH_TOKEN
+        offline: true   // 👈 offline mode enabled
       });
 
       this.setupEventHandlers();
