@@ -84,7 +84,7 @@ class BedrockBot {
     return {
       isRunning: this.isRunning,
       username: this.client ? this.client.username : null,
-      version: '1.26.11.1'
+      version: '1.26.11'
     };
   }
 }
