@@ -28,6 +28,8 @@ class BedrockBot {
         host: this.serverConfig.host,
         port: this.serverConfig.port,
         username: this.serverConfig.username
+        email: process.env.MS_EMAIL,
+        password: process.env.MS_PASSWORD
       });
 
       this.setupEventHandlers();
