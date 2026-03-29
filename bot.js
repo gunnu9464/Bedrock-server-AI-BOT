@@ -25,12 +25,12 @@ class BedrockBot {
 
     try {
       this.client = createClient({
-        host: this.serverConfig.host,
-        port: this.serverConfig.port,
-        username: this.serverConfig.username
-        email: process.env.MS_EMAIL,
-        password: process.env.MS_PASSWORD
-      });
+      host: this.serverConfig.host,
+      port: this.serverConfig.port,
+      username: this.serverConfig.username,   // <-- comma here
+      auth: 'microsoft',                      // <-- comma here
+      refreshToken: process.env.BEDROCK_REFRESH_TOKEN
+    });
 
       this.setupEventHandlers();
       this.isRunning = true;
