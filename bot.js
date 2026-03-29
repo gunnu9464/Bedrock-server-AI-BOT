@@ -6,9 +6,7 @@ class BedrockBot {
   constructor(serverConfig) {
     this.serverConfig = serverConfig;
     this.client = null;
-    this.reconnectAttempts = 0;
-    this.maxReconnectAttempts = config.bot.maxReconnectAttempts;
-    this.reconnectDelay = config.bot.reconnectDelay;
+    this.reconnectDelay = config.bot.reconnectDelay || 5000;
     this.isRunning = false;
     this.reconnectTimeout = null;
 
@@ -16,21 +14,16 @@ class BedrockBot {
   }
 
   connect() {
-    if (this.isRunning) {
-      logger.warn('Bot is already running, skipping connection attempt');
-      return;
-    }
-
     logger.info('Attempting to connect to Bedrock server...');
 
     try {
       this.client = createClient({
-      host: this.serverConfig.host,
-      port: this.serverConfig.port,
-      username: this.serverConfig.username,   // <-- comma here
-      auth: 'microsoft',                      // <-- comma here
-      refreshToken: process.env.BEDROCK_REFRESH_TOKEN
-    });
+        host: this.serverConfig.host,
+        port: this.serverConfig.port,
+        username: this.serverConfig.username,
+        auth: 'microsoft',
+        refreshToken: process.env.BEDROCK_REFRESH_TOKEN
+      });
 
       this.setupEventHandlers();
       this.isRunning = true;
@@ -43,7 +36,6 @@ class BedrockBot {
   setupEventHandlers() {
     this.client.on('join', () => {
       logger.info(`✅ Joined Bedrock server as ${this.client.username}`);
-      this.reconnectAttempts = 0;
     });
 
     this.client.on('disconnect', (reason) => {
@@ -59,19 +51,11 @@ class BedrockBot {
   }
 
   handleReconnect() {
-    if (!this.isRunning) return;
-
-    if (this.reconnectAttempts >= this.maxReconnectAttempts) {
-      logger.error(`Max reconnect attempts (${this.maxReconnectAttempts}) reached. Stopping bot.`);
-      this.stop();
-      return;
-    }
-
-    this.reconnectAttempts++;
-    const delay = this.reconnectDelay;
-    logger.info(`Reconnection attempt ${this.reconnectAttempts}/${this.maxReconnectAttempts} in ${delay/1000} seconds...`);
-
-    this.reconnectTimeout = setTimeout(() => this.connect(), delay);
+    logger.info(`Reconnecting in ${this.reconnectDelay / 1000} seconds...`);
+    this.reconnectTimeout = setTimeout(() => {
+      this.isRunning = false; // reset so connect() can run again
+      this.connect();
+    }, this.reconnectDelay);
   }
 
   cleanup() {
@@ -86,8 +70,11 @@ class BedrockBot {
     this.isRunning = false;
     this.cleanup();
     if (this.client) {
-      try { this.client.close(); }
-      catch (error) { logger.warn('Error during bot shutdown:', error.message); }
+      try {
+        this.client.close();
+      } catch (error) {
+        logger.warn('Error during bot shutdown:', error.message);
+      }
       this.client = null;
     }
     logger.info('Bot stopped successfully');
@@ -96,7 +83,6 @@ class BedrockBot {
   getStatus() {
     return {
       isRunning: this.isRunning,
-      reconnectAttempts: this.reconnectAttempts,
       username: this.client ? this.client.username : null
     };
   }
