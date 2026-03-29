@@ -21,7 +21,8 @@ class BedrockBot {
         host: this.serverConfig.host,
         port: this.serverConfig.port,
         username: this.serverConfig.username,
-        offline: true   // 👈 offline mode enabled
+        offline: true,              // 👈 offline mode enabled
+        version: '1.26.11.1'        // 👈 specify server version
       });
 
       this.setupEventHandlers();
@@ -82,7 +83,8 @@ class BedrockBot {
   getStatus() {
     return {
       isRunning: this.isRunning,
-      username: this.client ? this.client.username : null
+      username: this.client ? this.client.username : null,
+      version: '1.26.11.1'
     };
   }
 }
