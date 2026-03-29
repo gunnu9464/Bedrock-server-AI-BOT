@@ -1,0 +1,15 @@
+{
+  "server": {
+    "host": "your-bedrock-server.aternos.me",
+    "port": 19132
+  },
+  "bot": {
+    "username": "alwaysonline",
+    "reconnectDelay": 30000,
+    "maxReconnectAttempts": 100
+  },
+  "logging": {
+    "level": "info",
+    "enableTimestamp": true
+  }
+}
