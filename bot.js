@@ -22,7 +22,7 @@ class BedrockBot {
         port: this.serverConfig.port,
         username: this.serverConfig.username,
         offline: true,              // 👈 offline mode enabled
-        version: '1.26.0'        // 👈 specify server version
+        version: '1.26.10'        // 👈 specify server version
       });
 
       this.setupEventHandlers();
