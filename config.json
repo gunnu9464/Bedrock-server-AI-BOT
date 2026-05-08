@@ -1,10 +1,10 @@
 {
   "server": {
-    "host": "Enjoy-p0bN.aternos.me",
-    "port": 55264
+    "host": "oxoECLIPSE.aternos.me",
+    "port": 62188
   },
   "bot": {
-    "username": "alwaysonline",
+    "username": "OxoAlice",
     "reconnectDelay": 5000,
     "maxReconnectAttempts": 10000000000000000000000000000000000000
   },
